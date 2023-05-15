@@ -22,7 +22,7 @@ const getMessage = async ({ setError, domain, requestBody }) => {
   }
 };
 
-const signMessage = async ({ setSignError, message }) => {
+const signMessage = async ({ setError, message }) => {
   try {
     if (!window.ethereum)
       throw new Error("No crypto wallet found. Please install it.");
@@ -39,11 +39,11 @@ const signMessage = async ({ setSignError, message }) => {
       address
     };
   } catch (err) {
-    setSignError(err.message);
+    setError(err.message);
   }
 };
 
-const setRecords = async ({ setRecordError, domain, signature, requestBody }) => {
+const setRecords = async ({ setError, domain, signature, requestBody }) => {
   try {
     const url = 'https://profile.unstoppabledomains.com/api/user/' + domain
     const response = await fetch(url, {
@@ -60,69 +60,55 @@ const setRecords = async ({ setRecordError, domain, signature, requestBody }) =>
     const responseBody = await response.json()
     return responseBody;
   } catch (err) {
-    setRecordError(err.message);
+    setError(err.message);
   }
 };
 
 export default function ProfileManagement() {
-  const [successMsg, setSuccessMsg] = useState();
+  const [success, setSuccess] = useState();
   const [error, setError] = useState();
-  const [signature, setSignature] = useState();
-  const [signError, setSignError] = useState();
-  const [record, setRecord] = useState();
-  const [recordError, setRecordError] = useState();
 
-  const handleMessage = async (e) => {
+  const handleRecord = async (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
-    setSuccessMsg();
+    setSuccess();
     setError();
-    const response = await getMessage({
+
+    const message = await getMessage({
       setError,
       domain: data.get("domain"),
       requestBody: data.get("request")
     });
 
-    if (response) {
-      console.log(response)
-      setSuccessMsg(response);
-    }
-  };
+    if (message) {
+      console.log("Signing Message: \n" + message)
 
-  const handleSign = async (e) => {
-    e.preventDefault();
-    setSignature();
-    setSignError();
-    const sig = await signMessage({
-      setSignError,
-      message: successMsg
-    });
-    if (sig) {
-      console.log(sig.signature)
-      setSignature(sig);
-    }
-  };
+      const sig = await signMessage({
+        setError,
+        message: message
+      });
+  
+      if (sig) {
+        console.log("Signature: \n" + sig.signature)
 
-  const handleRecord = async (e) => {
-    e.preventDefault();
-    const data = new FormData(e.target);
-    setRecord();
-    setRecordError();
-    const response = await setRecords({
-      setRecordError,
-      domain: data.get("domain"),
-      signature: signature.signature,
-      requestBody: data.get("request")
-    });
-
-    if (response.profile) {
-      console.log(response)
-      setRecord(`200`);
-    }
+        const response = await setRecords({
+          setError,
+          domain: data.get("domain"),
+          signature: sig.signature,
+          requestBody: data.get("request")
+        });
+    
+        if (response.profile) {
+          console.log("Profile Metadata: \n")
+          console.log(response)
+          setSuccess("Profile Updated");
+        }
+      } 
+    } 
   };
 
   return (
-    <form className="m-4" onSubmit={signature ? handleRecord : successMsg ? handleSign : handleMessage}>
+    <form className="m-1" onSubmit={handleRecord}>
       <div className="credit-card w-full shadow-lg mx-auto rounded-xl bg-white">
         <main className="mt-4 p-4">
           <h1 className="text-xl font-semibold text-gray-700 text-center">
@@ -154,40 +140,12 @@ export default function ProfileManagement() {
             type="submit"
             className="btn btn-primary submit-button focus:ring focus:outline-none w-full"
           >
-            Get Message
+            Set Record
           </button>
           <div className="p-4 mt-4">
             <ErrorMessage message={error} />
-            <SuccessMessage message={successMsg} />
+            <SuccessMessage message={success} />
           </div>
-        </footer>
-      </div>
-      <div className="credit-card w-full shadow-lg mx-auto rounded-xl bg-white">
-        <main className="mt-4 p-4">
-        </main>
-        <footer className="p-4">
-          <button
-            type="submit"
-            className="btn btn-primary submit-button focus:ring focus:outline-none w-full"
-          >
-            Sign message
-          </button>
-          <ErrorMessage message={signError} />
-          <SuccessMessage message={signature?.signature} />
-        </footer>
-      </div>
-      <div className="credit-card w-full shadow-lg mx-auto rounded-xl bg-white">
-        <main className="mt-4 p-4">
-        </main>
-        <footer className="p-4">
-          <button
-            type="submit"
-            className="btn btn-primary submit-button focus:ring focus:outline-none w-full"
-          >
-            Set Record
-          </button>
-          <ErrorMessage message={recordError} />
-          <SuccessMessage message={record} />
         </footer>
       </div>
     </form>

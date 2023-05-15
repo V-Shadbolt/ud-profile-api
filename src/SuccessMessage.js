@@ -4,7 +4,7 @@ export default function SuccessMessage({ message }) {
     return (
       <div className="alert alert-success">
         <div className="flex-1">
-          <label>{message}</label>
+          <label className="text-sm">{message}</label>
         </div>
       </div>
     );
