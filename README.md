@@ -65,11 +65,7 @@ Official documentation is available [here](https://docs.unstoppabledomains.com/o
   }
   ```
 
-  - Click on `Get Message` which will generate the message the end user will be signing. 
-  - Click on `Sign Message` to prompt a Metamask (or other injected wallet) for the domain owner signature
-  - Click on `Set Record` to POST the signature and JSON body to the profile API. 
-
-  If replicating on the frontend, merge all three buttons into a single click.
+  - Click on `Set Record`. This will generate the message the end user will be signing, prompt Metamask (or other injected wallet) for the owner signature, and POST the signature and JSON body to the profile API. 
 
 ***Breakdown***
 The `ProfileManagement.js` file outlines the three basic functions needed to utilize the Unstoppable Domains Profile API to manage a sub/domain. 
