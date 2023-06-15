@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.js": "/static/js/main.67608c6d.js",
-    "index.html": "/index.html",
-    "main.67608c6d.js.map": "/static/js/main.67608c6d.js.map"
+    "main.js": "/ud-profile-api/static/js/main.67608c6d.js",
+    "index.html": "/ud-profile-api/index.html",
+    "main.67608c6d.js.map": "/ud-profile-api/static/js/main.67608c6d.js.map"
   },
   "entrypoints": [
     "static/js/main.67608c6d.js"
