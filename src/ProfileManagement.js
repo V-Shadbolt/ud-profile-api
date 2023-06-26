@@ -108,47 +108,53 @@ export default function ProfileManagement() {
   };
 
   return (
-    <form className="m-1" onSubmit={handleRecord}>
-      <div className="credit-card w-full shadow-lg mx-auto rounded-xl bg-white">
-        <main className="mt-4 p-4">
-          <h1 className="text-xl font-semibold text-gray-700 text-center">
-            Profile Management
-          </h1>
-          <div className="">
-            <div className="my-3">
-              <textarea
-                required
-                type="text"
-                name="domain"
-                className="textarea w-full h-24 textarea-bordered focus:ring focus:outline-none"
-                placeholder="Domain Name"
-              />
+    <div>
+      <form className="m-1" onSubmit={handleRecord}>
+        <div className="w-full shadow-lg mx-auto rounded-xl bg-white">
+          <main className="mt-4 p-4">
+            <h1 className="text-xl font-semibold text-[#0A3783] text-center">
+              Profile Management
+            </h1>
+            <div>
+              <div className="my-3">
+                <textarea
+                  required
+                  type="text"
+                  name="domain"
+                  className="textarea w-full h-24 textarea-bordered focus:ring ring-[#0D67FE] focus:outline-none"
+                  placeholder="johndoe.x"
+                />
+              </div>
+              <div className="my-3">
+                <textarea
+                  required
+                  type="text"
+                  name="request"
+                  className="textarea w-full h-24 textarea-bordered focus:ring ring-[#0D67FE] focus:outline-none"
+                  placeholder=' 
+                  {
+                    "displayName": "John Doe"
+                  }
+                  '
+                  
+                />
+              </div>
             </div>
-            <div className="my-3">
-              <textarea
-                required
-                type="text"
-                name="request"
-                className="textarea w-full h-24 textarea-bordered focus:ring focus:outline-none"
-                placeholder="Request Body JSON"
-              />
+          </main>
+          <footer className="my-3 p-4">
+            <button
+              type="submit"
+              className="bg-[#0D67FE] text-white rounded-full focus:ring focus:outline-none w-full"
+            >
+              Set Record
+            </button>
+            <div className="p-4 mt-4">
+              <ErrorMessage message={error} />
+              <SuccessMessage message={success} />
             </div>
-          </div>
-        </main>
-        <footer className="p-4">
-          <button
-            type="submit"
-            className="btn btn-primary submit-button focus:ring focus:outline-none w-full"
-          >
-            Set Record
-          </button>
-          <div className="p-4 mt-4">
-            <ErrorMessage message={error} />
-            <SuccessMessage message={success} />
-          </div>
-        </footer>
-      </div>
-    </form>
-
+          </footer>
+        </div>
+      </form>
+    </div>
   );
 }
