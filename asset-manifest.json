@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/ud-profile-api/static/css/main.fb07cd8c.css",
-    "main.js": "/ud-profile-api/static/js/main.693f9e93.js",
+    "main.css": "/ud-profile-api/static/css/main.8968ed41.css",
+    "main.js": "/ud-profile-api/static/js/main.85475d84.js",
     "static/media/ud-logo-lockup.svg": "/ud-profile-api/static/media/ud-logo-lockup.20fdef5ae331e8d1e5c03d7610f9adac.svg",
     "index.html": "/ud-profile-api/index.html",
-    "main.fb07cd8c.css.map": "/ud-profile-api/static/css/main.fb07cd8c.css.map",
-    "main.693f9e93.js.map": "/ud-profile-api/static/js/main.693f9e93.js.map"
+    "main.8968ed41.css.map": "/ud-profile-api/static/css/main.8968ed41.css.map",
+    "main.85475d84.js.map": "/ud-profile-api/static/js/main.85475d84.js.map"
   },
   "entrypoints": [
-    "static/css/main.fb07cd8c.css",
-    "static/js/main.693f9e93.js"
+    "static/css/main.8968ed41.css",
+    "static/js/main.85475d84.js"
   ]
 }
