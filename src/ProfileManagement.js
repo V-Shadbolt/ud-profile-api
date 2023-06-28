@@ -2,23 +2,29 @@ import { useState } from "react";
 import { ethers } from "ethers";
 import ErrorMessage from "./ErrorMessage";
 import SuccessMessage from "./SuccessMessage";
+import axios from "axios";
 
 const getMessage = async ({ setError, domain, requestBody }) => {
   try {
     const url = 'https://profile.unstoppabledomains.com/api/user/' + domain + '/signature?expiry=1765522015090'
-    const response = await fetch(url, {
-      method: 'POST',
+    const responseBody = await axios({
+      method: 'post',
+      url: url,
+      data: requestBody,
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: requestBody
     })
-    const responseBody = await response.json()
-    var jsonResponse = responseBody.message;
+    var jsonResponse = responseBody?.data?.message;
     return jsonResponse;
   } catch (err) {
-    setError(err.message);
+    console.log(err?.message)
+    if (err?.message?.includes("400")) {
+      setError("Malformed JSON")
+    } else {
+      setError(err?.message)
+    }
   }
 };
 
@@ -39,15 +45,17 @@ const signMessage = async ({ setError, message }) => {
       address
     };
   } catch (err) {
-    setError(err.message);
+    setError(err?.message);
   }
 };
 
 const setRecords = async ({ setError, domain, signature, requestBody }) => {
   try {
     const url = 'https://profile.unstoppabledomains.com/api/user/' + domain
-    const response = await fetch(url, {
-      method: 'POST',
+    const responseBody = await axios({
+      method: 'post',
+      url: url,
+      data: requestBody,
       headers: {
         'Accept': 'application/json',
         'x-auth-domain': domain,
@@ -55,12 +63,15 @@ const setRecords = async ({ setError, domain, signature, requestBody }) => {
         'x-auth-signature': signature,
         'Content-Type': 'application/json'
       },
-      body: requestBody
     })
-    const responseBody = await response.json()
-    return responseBody;
+    return responseBody?.data;
   } catch (err) {
-    setError(err.message);
+    console.log(err?.message)
+    if (err?.message?.includes("403")) {
+      setError("Domain not owned by signature wallet")
+    } else {
+      setError(err?.message)
+    }
   }
 };
 
@@ -110,9 +121,9 @@ export default function ProfileManagement() {
   return (
     <div>
       <form className="m-1" onSubmit={handleRecord}>
-        <div className="w-full shadow-lg mx-auto rounded-xl bg-white">
+        <div className="w-full mx-auto rounded-xl bg-white">
           <main className="mt-4 p-4">
-            <h1 className="text-xl font-semibold text-[#0A3783] text-center">
+            <h1 className="text-2xl text-[#202020] text-center">
               Profile Management
             </h1>
             <div>
